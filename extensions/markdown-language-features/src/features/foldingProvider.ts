@@ -92,7 +92,11 @@ export default class MarkdownFoldingProvider implements vscode.FoldingRangeProvi
 			if (document.lineAt(end).isEmptyOrWhitespace && end >= start + 1) {
 				end = end - 1;
 			}
-			return new vscode.FoldingRange(start, end);
+			if (listItem.type === 'html_block') {
+				return new vscode.FoldingRange(start, end, vscode.FoldingRangeKind.Comment);
+			} else {
+				return new vscode.FoldingRange(start, end);
+			}
 		});
 	}
 }
